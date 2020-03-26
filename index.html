@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="buttons" style="margin:25px;")>
+        <button data-search="dogs">dogs</button>
+        <button data-search="cats">cats</button>
+
+    </div>
+    
+    <div class="img-ani" style="margin:25px;">
+
+
+    </div>
+
+    <script type="text/javascript">
+        $("button").on("click", function(){
+            $(".img-ani").empty();
+            //Search used to search using the data-attribute
+            var search = $(this).attr("data-search");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=wslWpWhssAgYDK6zVXacBDsacT47flr4&limit=5";
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
+            .then(function(response) {
+                console.log(response)
+                var results = response.data;
+
+                for (var i = 0; i < results.length; i++) {
+                    var gifDiv = $("<div>");
+
+                    var rating = results[i].rating;
+                    var image = $("<img>");
+                    image.attr("src", results[i].images.fixed_height.url);
+
+                    gifDiv.prepend(image);
+
+                    $(".img-ani").prepend(gifDiv);
+                }
+
+            });
+
+            // }
+
+        });
+
+
+
+
+
+
+    </script>
+
+
+
+</body>
+</html>
